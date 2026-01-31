@@ -6,21 +6,18 @@ import { SocketContext } from "../Context";
 
 const useStyles = makeStyles({
   video: {
-    width: "550px",
-    "@media (max-width:600px)": {
-      width: "300px",
-    },
-  },
-  gridContainer: {
-    justifyContent: "center",
-    "@media (max-width:600px)": {
-      flexDirection: "column",
-    },
+    width: "100%",
+    borderRadius: 12,
   },
   paper: {
-    padding: "10px",
-    border: "2px solid black",
-    margin: "10px",
+    padding: "12px",
+    borderRadius: 16,
+    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+    backgroundColor: "#000",
+  },
+  name: {
+    color: "#fff",
+    marginBottom: 8,
   },
 });
 
