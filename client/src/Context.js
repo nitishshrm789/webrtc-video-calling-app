@@ -17,6 +17,16 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef(null);
   const socketRef = useRef(null);
 
+  //Add states for messages
+  const [messages, setMessages] = useState([]);
+
+  const setupDataChannel = (peer) => {
+    peer.on("data", (data) => {
+      const message = data.toString();
+      setMessages((prev) => [...prev, { from: "Remote", text: message }]);
+    });
+  };
+
   // 1️⃣ Initialize socket ONCE
   useEffect(() => {
     const socket = io("http://localhost:5000", {
@@ -100,6 +110,8 @@ const ContextProvider = ({ children }) => {
       }
     });
 
+    setupDataChannel(peer);
+
     peer.signal(call.signal);
     connectionRef.current = peer;
   };
@@ -127,12 +139,21 @@ const ContextProvider = ({ children }) => {
       }
     });
 
+    setupDataChannel(peer);
+
     socketRef.current.on("callAccepted", (signal) => {
       setCallAccepted(true);
       peer.signal(signal);
     });
 
     connectionRef.current = peer;
+  };
+
+  const sendMessage = (message) => {
+    if (!connectionRef.current) return;
+
+    connectionRef.current.send(message);
+    setMessages((prev) => [...prev, { from: "Me", text: message }]);
   };
 
   // 5️⃣ Proper cleanup (USED BY BOTH USERS)
@@ -176,6 +197,8 @@ const ContextProvider = ({ children }) => {
         callUser,
         answerCall,
         leaveCall,
+        messages,
+        sendMessage,
       }}
     >
       {children}

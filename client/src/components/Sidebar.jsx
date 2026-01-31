@@ -3,6 +3,7 @@ import { Button, TextField, Typography, Container, Paper, Box } from "@mui/mater
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Assignment, Phone, PhoneDisabled } from "@mui/icons-material";
 import { SocketContext } from "../Context";
+import Chat from "./Chat";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Sidebar = ({ children }) => {
@@ -83,6 +84,7 @@ const Sidebar = ({ children }) => {
         </form>
 
         {children}
+        <Chat />
       </Paper>
     </Container>
   );
